@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_withcarrier_out_form_inherit" model="ir.ui.view">
+        <field name="name">delivery.stock.picking_withcarrier.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+        <field name="arch" type="xml">
+            <field name="carrier_id" position="after">
+                <field name="dpd_label_name" invisible="1"/>
+                <field name="dpd_label_bin" readonly="1" filename="dpd_label_name"/>
+            </field>
+            <xpath expr="//page[@name='extra']" position="inside">
+                <group string="Parcels" attrs="{'invisible':[('number_of_packages','&lt;',1)]}">
+                    <field name="dpd_parcel_ids" nolabel="1">
+                        <tree create="false" delete="false" editable="top">
+                            <field name="name" readonly="1"/>
+                            <field name="weight"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Delivery information" name="delivery_information" attrs="{'invisible':[('carrier_tracking_ref','=',False)]}">
+                    <group colspan="8">
+                        <button name="action_get_tracking" string="Update Tracking information" type="object"  class="btn btn-link"/>
+                        <field name="delivery_state" widget="statusbar" nolabel="1"/>
+                        <field name="dpd_delivery_info_ids" nolabel="1" colspan="8" readonly="1">
+                            <tree>
+                                <field name="date"/>
+                                <field name="location"/>
+                                <field name="extra_info"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>   

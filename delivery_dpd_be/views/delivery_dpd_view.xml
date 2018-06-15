@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_delivery_carrier_form_with_provider_dpd" model="ir.ui.view">
+		<field name="name">delivery.carrier.form.provider.dpd</field>
+		<field name="model">delivery.carrier</field>
+		<field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form/sheet" position="before">
+				<header>
+					<button name="action_test_connection" string="Test connection" type="object"  class="btn btn-primary" attrs="{'invisible': [('delivery_type', '!=', 'dpd_be')]}"/>
+				</header>
+			</xpath>
+			<xpath expr="//notebook/page[@name='destination']" position='before'>
+				<page string="DPD Configuration" attrs="{'invisible': [('delivery_type', '!=', 'dpd_be')]}">
+					<group string='DPD Configuration' attrs="{'invisible': [('delivery_type', '!=', 'dpd_be')]}">
+						<group>
+							<field name="dpd_delis_id" attrs="{'required': [('delivery_type', '=', 'dpd_be')]}"/>
+							<field name="dpd_password" attrs="{'required': [('delivery_type', '=', 'dpd_be')]}"/>
+							<field name="dpd_token" readonly="1"/>
+							<field name="dpd_depot" readonly="1"/>
+							<field name="dpd_customer_uid" readonly="1"/>
+						</group>
+						<group>
+							<field name="dpd_label_size" attrs="{'required': [('delivery_type', '=', 'dpd_be')]}"/>
+							<field name="dpd_ship_service" attrs="{'required': [('delivery_type', '=', 'dpd_be')]}"/>
+							<field name="dpd_shipping_type" attrs="{'required': [('delivery_type', '=', 'dpd_be')]}"/>
+							<field name="dpd_auto_sync_delivery"/>
+							<field name="dpd_shipping_cost_type"/>
+						</group>
+					</group>
+				</page>
+				<page string="Pricing" attrs="{'invisible': [('delivery_type', '!=', 'dpd_be')]}">
+						<group attrs="{'invisible':[('dpd_shipping_cost_type', '!=', 'fixed')]}">
+							<group>
+								<field name="fixed_price"/>
+							</group>
+						</group>
+						<group name="general" attrs="{'invisible':[('dpd_shipping_cost_type', '!=', 'base_on_rule')]}">
+							<field name="price_rule_ids" nolabel="1"/>
+						</group>
+						<group name="based_on_product" attrs="{'invisible':[('dpd_shipping_cost_type', '!=', 'base_product')]}">
+							<field name="product_id"/>
+						</group>
+					</page>
+			</xpath>
+		</field>
+	</record>
+	<record id="view_delivery_price_rule_form" model="ir.ui.view">
+		<field name="name">delivery.price.rule.form</field>
+		<field name="model">delivery.price.rule</field>
+		<field name="inherit_id" ref="delivery.view_delivery_price_rule_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='variable_factor']" position="after">
+				<label string=":" attrs="{'invisible':[('variable_factor','!=','per_quantity')]}" />
+				<field name="quantity_per_value" class="oe_inline" attrs="{'invisible':[('variable_factor','!=','per_quantity')]}" nolabel="1"/>
+			</xpath>
+			<xpath expr="//field[@name='list_base_price']" position="replace">
+				<field name="price_type" class="oe_inline"/>
+				<label string=":" attrs="{'invisible':[('price_type','!=','fixed')]}" />
+				<field name="list_base_price" class="oe_inline" attrs="{'invisible':[('price_type','!=','fixed')]}"/>
+				+
+			</xpath>
+			<xpath expr="//field[@name='list_price']" position="replace">
+				<field name="list_price" class="oe_inline"/>
+				<label string="*" attrs="{'invisible':[('variable_factor','=','per_quantity')]}" />
+				<label string=" " attrs="{'invisible':[('variable_factor','!=','per_quantity')]}" />
+			</xpath>
+		</field>
+	</record>
+</odoo>

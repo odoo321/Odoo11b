@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_stock_picking_delivery_all,stock.stock_picking_delivery all,model_stock_picking_delivery,,1,0,0,0
+access_stock_stock_picking_delivery_manager,stock.stock_picking_delivery manager,model_stock_picking_delivery,stock.group_stock_manager,1,1,1,1
+access_stock_stock_picking_delivery_user,stock.stock_picking_delivery manager,model_stock_picking_delivery,stock.group_stock_user,1,1,1,1
+access_stock_stock_picking_parcel_all,stock.stock_picking_parcel all,model_stock_picking_parcel,,1,0,0,0
+access_stock_stock_picking_parcel_manager,stock.stock_picking_parcel manager,model_stock_picking_parcel,stock.group_stock_manager,1,1,1,1
+access_stock_stock_picking_parcel_user,stock.stock_picking_parcel manager,model_stock_picking_parcel,stock.group_stock_user,1,1,1,1
